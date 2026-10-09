@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://uml-yaml.org/schemas/v0.2/model.schema.json",
   "title": "UML YAML v0.2 foundational metamodel (draft)",
-  "description": "Partial UML v0.2 draft: foundations, classifier vocabulary, and minimal activity/state-machine vocabulary. Not full UML semantics.",
+  "description": "Partial UML v0.2 draft: foundations, classifiers, basic behavior and interactions; not complete UML 2.5.1.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -394,7 +394,8 @@
             "uml:Realization",
             "uml:Signal",
             "uml:Activity",
-            "uml:StateMachine"
+            "uml:StateMachine",
+            "uml:Interaction"
           ]
         },
         "visibility": {
@@ -582,6 +583,48 @@
                 }
               }
             }
+          }
+        },
+        "lifelines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/lifeline"
+          }
+        },
+        "occurrences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/occurrence"
+          }
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/message"
+          }
+        },
+        "executions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/executionSpecification"
+          }
+        },
+        "combinedFragments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/combinedFragment"
+          }
+        },
+        "interactionUses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interactionUse"
+          }
+        },
+        "generalOrderings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/generalOrdering"
           }
         }
       },
@@ -933,6 +976,270 @@
             "type": "string",
             "minLength": 1
           }
+        }
+      }
+    },
+    "lifeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "representsRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "occurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "coveredRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:MessageOccurrenceSpecification",
+            "uml:ExecutionOccurrenceSpecification",
+            "uml:DestructionOccurrenceSpecification"
+          ]
+        },
+        "coveredRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "messageSort",
+        "sendEventRef",
+        "receiveEventRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "messageSort": {
+          "enum": [
+            "synchCall",
+            "asynchCall",
+            "asynchSignal",
+            "reply",
+            "createMessage",
+            "deleteMessage"
+          ]
+        },
+        "sendEventRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receiveEventRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signatureRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/valueSpecification"
+          }
+        }
+      }
+    },
+    "executionSpecification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "startRef",
+        "finishRef",
+        "coveredRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:BehaviorExecutionSpecification",
+            "uml:ActionExecutionSpecification"
+          ]
+        },
+        "startRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "finishRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coveredRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "behaviorRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actionRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "interactionOperand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "guard": {
+          "$ref": "#/$defs/valueSpecification"
+        },
+        "fragmentRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "combinedFragment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "interactionOperator",
+        "operands"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interactionOperator": {
+          "enum": [
+            "alt",
+            "opt",
+            "loop",
+            "par",
+            "break",
+            "critical",
+            "neg",
+            "assert",
+            "strict",
+            "seq",
+            "ignore",
+            "consider"
+          ]
+        },
+        "coveredRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "operands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/interactionOperand"
+          }
+        }
+      }
+    },
+    "interactionUse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "refersToRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "refersToRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coveredRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/valueSpecification"
+          }
+        }
+      }
+    },
+    "generalOrdering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "beforeRef",
+        "afterRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "beforeRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "afterRef": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }
