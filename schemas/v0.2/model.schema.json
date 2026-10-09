@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://uml-yaml.org/schemas/v0.2/model.schema.json",
   "title": "UML YAML v0.2 foundational metamodel (draft)",
-  "description": "Partial UML v0.2 draft: foundations, classifiers, basic behavior and interactions; not complete UML 2.5.1.",
+  "description": "Partial UML v0.2 draft: structural, behavioral, interaction, use-case, and deployment vocabularies; not complete UML 2.5.1.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -395,7 +395,15 @@
             "uml:Signal",
             "uml:Activity",
             "uml:StateMachine",
-            "uml:Interaction"
+            "uml:Interaction",
+            "uml:UseCase",
+            "uml:Actor",
+            "uml:Node",
+            "uml:Device",
+            "uml:ExecutionEnvironment",
+            "uml:Artifact",
+            "uml:DeploymentSpecification",
+            "uml:Manifestation"
           ]
         },
         "visibility": {
@@ -625,6 +633,56 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/generalOrdering"
+          }
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actor"
+          }
+        },
+        "useCaseRelationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/useCaseRelationship"
+          }
+        },
+        "extensionPoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/extensionPoint"
+          }
+        },
+        "subjectRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "deploymentNodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deploymentNode"
+          }
+        },
+        "communicationPaths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/communicationPath"
+          }
+        },
+        "deployments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deployment"
+          }
+        },
+        "manifestedElementRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
           }
         }
       },
@@ -1240,6 +1298,177 @@
         "afterRef": {
           "type": "string",
           "minLength": 1
+        }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generalizations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "useCaseRelationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "sourceRef",
+        "targetRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:Include",
+            "uml:Extend"
+          ]
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extensionLocationRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "extensionPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "deploymentNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:Node",
+            "uml:Device",
+            "uml:ExecutionEnvironment"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nestedNodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deploymentNode"
+          }
+        },
+        "deployedArtifactRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "communicationPath": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "endRefs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "endRefs": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "locationRef",
+        "deployedArtifactRefs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locationRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deployedArtifactRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     }
