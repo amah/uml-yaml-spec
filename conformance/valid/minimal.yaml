@@ -1,0 +1,6 @@
+apiVersion: uml-yaml.org/v0.1
+kind: uml:Model
+metadata:
+  id: urn:example:model:minimal
+  name: Minimal
+packagedElements: []
