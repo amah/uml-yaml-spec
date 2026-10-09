@@ -1,0 +1,358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uml-yaml.org/schemas/v0.1/model.schema.json",
+  "title": "UML YAML draft v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "packagedElements"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "uml-yaml.org/v0.1"
+    },
+    "kind": {
+      "const": "uml:Model"
+    },
+    "metadata": {
+      "$ref": "#/$defs/metadata"
+    },
+    "appliedProfiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ref"
+      },
+      "uniqueItems": true
+    },
+    "packagedElements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/element"
+      }
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ref"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "multiplicityUpper": {
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "const": "*"
+        }
+      ]
+    },
+    "property": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "typeRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ref"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "typeRef": {
+          "$ref": "#/$defs/ref"
+        },
+        "lower": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "upper": {
+          "$ref": "#/$defs/multiplicityUpper"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "private",
+            "protected",
+            "package"
+          ]
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ref"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "typeRef"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "typeRef": {
+                "$ref": "#/$defs/ref"
+              },
+              "direction": {
+                "enum": [
+                  "in",
+                  "out",
+                  "inout",
+                  "return"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "end": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "typeRef"
+      ],
+      "properties": {
+        "typeRef": {
+          "$ref": "#/$defs/ref"
+        },
+        "lower": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "upper": {
+          "$ref": "#/$defs/multiplicityUpper"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "tag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "typeRef"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "typeRef": {
+          "$ref": "#/$defs/ref"
+        },
+        "lower": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "upper": {
+          "$ref": "#/$defs/multiplicityUpper"
+        }
+      }
+    },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stereotypeRef"
+      ],
+      "properties": {
+        "stereotypeRef": {
+          "$ref": "#/$defs/ref"
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null",
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ref"
+        },
+        "type": {
+          "enum": [
+            "uml:Package",
+            "uml:Class",
+            "uml:Interface",
+            "uml:Component",
+            "uml:Enumeration",
+            "uml:Association",
+            "uml:Profile",
+            "uml:Stereotype"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "documentation": {
+          "type": "string"
+        },
+        "packagedElements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/element"
+          }
+        },
+        "ownedAttributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/property"
+          }
+        },
+        "ownedOperations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          }
+        },
+        "literals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "memberEnds": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/end"
+          }
+        },
+        "generalizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metaclassRef"
+            ],
+            "properties": {
+              "metaclassRef": {
+                "$ref": "#/$defs/ref"
+              }
+            }
+          }
+        },
+        "tagDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tag"
+          }
+        },
+        "appliedProfiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "stereotypeApplications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/application"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "uml:Association"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "memberEnds"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "uml:Stereotype"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "extensions"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
