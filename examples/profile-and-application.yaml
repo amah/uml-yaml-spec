@@ -1,0 +1,29 @@
+apiVersion: uml-yaml.org/v0.1
+kind: uml:Model
+metadata:
+  id: urn:example:model:architecture
+  name: ArchitectureExample
+appliedProfiles:
+  - urn:example:profile:architecture
+packagedElements:
+  - id: urn:example:profile:architecture
+    type: uml:Profile
+    name: Architecture
+    packagedElements:
+      - id: urn:example:stereotype:service
+        type: uml:Stereotype
+        name: Service
+        extensions:
+          - metaclassRef: uml:Component
+        tagDefinitions:
+          - name: owner
+            typeRef: uml:PrimitiveTypes::String
+            lower: 1
+            upper: 1
+  - id: urn:example:component:ordering
+    type: uml:Component
+    name: Ordering
+    stereotypeApplications:
+      - stereotypeRef: urn:example:stereotype:service
+        values:
+          owner: CommerceTeam
