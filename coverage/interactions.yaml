@@ -1,0 +1,21 @@
+umlVersion: "2.5.1"
+serializationVersion: "v0.2"
+inventoryComplete: false
+module: interactions
+elements:
+  - {name: Interaction, status: partial}
+  - {name: Lifeline, status: partial}
+  - {name: Message, status: partial}
+  - {name: MessageOccurrenceSpecification, status: partial}
+  - {name: ExecutionOccurrenceSpecification, status: partial}
+  - {name: DestructionOccurrenceSpecification, status: partial}
+  - {name: ExecutionSpecification, status: partial}
+  - {name: CombinedFragment, status: partial}
+  - {name: InteractionOperand, status: partial}
+  - {name: InteractionUse, status: partial}
+  - {name: GeneralOrdering, status: partial}
+  - {name: Gate, status: missing}
+  - {name: Continuation, status: missing}
+  - {name: StateInvariant, status: missing}
+  - {name: DurationConstraint, status: missing}
+  - {name: TimeConstraint, status: missing}
