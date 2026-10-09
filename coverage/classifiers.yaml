@@ -1,0 +1,21 @@
+umlVersion: "2.5.1"
+serializationVersion: "v0.2"
+inventoryComplete: false
+module: classifiers
+schemaIntegration: supplementary-only
+elements:
+  - {name: Classifier, status: partial}
+  - {name: Class, status: partial}
+  - {name: Interface, status: partial}
+  - {name: DataType, status: partial}
+  - {name: PrimitiveType, status: partial}
+  - {name: Enumeration, status: partial}
+  - {name: EnumerationLiteral, status: partial}
+  - {name: Signal, status: partial}
+  - {name: Generalization, status: partial}
+  - {name: InterfaceRealization, status: partial}
+  - {name: TemplateSignature, status: missing}
+  - {name: TemplateParameter, status: partial}
+  - {name: TemplateBinding, status: missing}
+  - {name: RedefinableElement, status: missing}
+  - {name: GeneralizationSet, status: missing}
