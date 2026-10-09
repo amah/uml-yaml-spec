@@ -1,0 +1,38 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:checkout
+  name: CheckoutModel
+packagedElements:
+  - id: urn:example:interaction:checkout
+    type: uml:Interaction
+    name: Checkout
+    lifelines:
+      - {id: urn:example:lifeline:customer, name: Customer}
+      - {id: urn:example:lifeline:orders, name: OrderService}
+    occurrences:
+      - {id: urn:example:occurrence:send, type: uml:MessageOccurrenceSpecification, coveredRef: urn:example:lifeline:customer}
+      - {id: urn:example:occurrence:receive, type: uml:MessageOccurrenceSpecification, coveredRef: urn:example:lifeline:orders}
+      - {id: urn:example:occurrence:reply-send, type: uml:MessageOccurrenceSpecification, coveredRef: urn:example:lifeline:orders}
+      - {id: urn:example:occurrence:reply-receive, type: uml:MessageOccurrenceSpecification, coveredRef: urn:example:lifeline:customer}
+    messages:
+      - id: urn:example:message:submit
+        name: submitOrder
+        messageSort: synchCall
+        sendEventRef: urn:example:occurrence:send
+        receiveEventRef: urn:example:occurrence:receive
+      - id: urn:example:message:result
+        name: result
+        messageSort: reply
+        sendEventRef: urn:example:occurrence:reply-send
+        receiveEventRef: urn:example:occurrence:reply-receive
+    combinedFragments:
+      - id: urn:example:fragment:optional
+        interactionOperator: opt
+        coveredRefs: [urn:example:lifeline:customer, urn:example:lifeline:orders]
+        operands:
+          - id: urn:example:operand:optional
+            guard: {type: uml:LiteralBoolean, value: true}
+            fragmentRefs: [urn:example:occurrence:send, urn:example:occurrence:receive]
+    generalOrderings:
+      - {id: urn:example:ordering:reply, beforeRef: urn:example:occurrence:receive, afterRef: urn:example:occurrence:reply-send}
