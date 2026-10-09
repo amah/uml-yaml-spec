@@ -1,0 +1,35 @@
+apiVersion: uml-yaml.org/v0.1
+kind: uml:Model
+metadata:
+  id: urn:example:model:commerce
+  name: Commerce
+packagedElements:
+  - id: urn:example:package:sales
+    type: uml:Package
+    name: Sales
+    packagedElements:
+      - id: urn:example:class:order
+        type: uml:Class
+        name: Order
+        ownedAttributes:
+          - id: urn:example:property:order-id
+            name: id
+            typeRef: uml:PrimitiveTypes::String
+            lower: 1
+            upper: 1
+        ownedOperations:
+          - id: urn:example:operation:place
+            name: place
+      - id: urn:example:class:order-line
+        type: uml:Class
+        name: OrderLine
+      - id: urn:example:association:order-lines
+        type: uml:Association
+        name: OrderLines
+        memberEnds:
+          - typeRef: urn:example:class:order
+            lower: 1
+            upper: 1
+          - typeRef: urn:example:class:order-line
+            lower: 0
+            upper: "*"
