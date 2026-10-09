@@ -1,0 +1,39 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:orders
+  name: Orders
+packagedElements:
+  - id: urn:example:package:sales
+    type: uml:Package
+    name: Sales
+    packagedElements:
+      - id: urn:example:class:order
+        type: uml:Class
+        name: Order
+        ownedAttributes:
+          - id: urn:example:property:order-id
+            name: id
+            typeRef: uml:PrimitiveTypes::String
+            multiplicity: {lower: 1, upper: 1}
+        ownedOperations:
+          - id: urn:example:operation:place
+            name: place
+            parameters:
+              - id: urn:example:parameter:place-result
+                name: result
+                typeRef: uml:PrimitiveTypes::Boolean
+                direction: return
+      - id: urn:example:class:order-line
+        type: uml:Class
+        name: OrderLine
+      - id: urn:example:association:order-lines
+        type: uml:Association
+        name: OrderLines
+        memberEnds:
+          - id: urn:example:end:order
+            typeRef: urn:example:class:order
+            multiplicity: {lower: 1, upper: 1}
+          - id: urn:example:end:lines
+            typeRef: urn:example:class:order-line
+            multiplicity: {lower: 0, upper: "*"}
