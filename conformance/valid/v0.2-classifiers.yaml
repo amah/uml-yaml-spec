@@ -1,0 +1,26 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:classifier
+  name: ClassifierExample
+packagedElements:
+  - id: urn:example:interface:payable
+    type: uml:Interface
+    name: Payable
+  - id: urn:example:class:invoice
+    type: uml:Class
+    name: Invoice
+    classifierDetails:
+      flags:
+        isAbstract: false
+      interfaceRealizations:
+        - id: urn:example:realization:invoice-payable
+          contractRef: urn:example:interface:payable
+  - id: urn:example:enum:status
+    type: uml:Enumeration
+    name: Status
+    enumerationLiterals:
+      - id: urn:example:literal:open
+        name: Open
+      - id: urn:example:literal:closed
+        name: Closed
