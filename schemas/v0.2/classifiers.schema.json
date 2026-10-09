@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uml-yaml.org/schemas/v0.2/classifiers.schema.json",
+  "title": "UML classifier detail vocabulary (draft, standalone fragment)",
+  "description": "Supplementary classifier definitions. Not yet composed into model.schema.json; no claim of integrated validation.",
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "visibility": {
+      "enum": [
+        "public",
+        "private",
+        "protected",
+        "package"
+      ]
+    },
+    "classifierFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isAbstract": {
+          "type": "boolean"
+        },
+        "isFinalSpecialization": {
+          "type": "boolean"
+        },
+        "isLeaf": {
+          "type": "boolean"
+        }
+      }
+    },
+    "generalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "generalRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "generalRef": {
+          "$ref": "#/$defs/reference"
+        },
+        "isSubstitutable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "interfaceRealization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "contractRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "contractRef": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "templateParameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameteredElementRef": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "classifierDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "flags": {
+          "$ref": "#/$defs/classifierFlags"
+        },
+        "generalizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/generalization"
+          }
+        },
+        "interfaceRealizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interfaceRealization"
+          }
+        },
+        "templateParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/templateParameter"
+          }
+        }
+      }
+    },
+    "enumerationLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "signalDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ownedAttributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "typeRef"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/reference"
+              },
+              "name": {
+                "type": "string"
+              },
+              "typeRef": {
+                "$ref": "#/$defs/reference"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  }
+}
