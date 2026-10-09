@@ -1,0 +1,566 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uml-yaml.org/schemas/v0.2/model.schema.json",
+  "title": "UML YAML v0.2 foundational metamodel (draft)",
+  "description": "A limited, UML-aligned foundational model. Not complete UML 2.5.1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "packagedElements"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "uml-yaml.org/v0.2"
+    },
+    "kind": {
+      "const": "uml:Model"
+    },
+    "metadata": {
+      "$ref": "#/$defs/identity"
+    },
+    "appliedProfiles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    },
+    "packagedElements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/element"
+      }
+    }
+  },
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "documentation": {
+          "type": "string"
+        }
+      }
+    },
+    "multiplicity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lower": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "upper": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "const": "*"
+            }
+          ]
+        }
+      }
+    },
+    "valueSpecification": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "uml:LiteralString"
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "uml:LiteralInteger"
+            },
+            "value": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "uml:LiteralBoolean"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "uml:LiteralNull"
+            }
+          }
+        }
+      ]
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "specification"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constrainedElements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "specification": {
+          "$ref": "#/$defs/valueSpecification"
+        }
+      }
+    },
+    "property": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "typeRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "typeRef": {
+          "$ref": "#/$defs/reference"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "private",
+            "protected",
+            "package"
+          ]
+        },
+        "multiplicity": {
+          "$ref": "#/$defs/multiplicity"
+        },
+        "isReadOnly": {
+          "type": "boolean"
+        },
+        "isDerived": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "$ref": "#/$defs/valueSpecification"
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "typeRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string"
+        },
+        "typeRef": {
+          "$ref": "#/$defs/reference"
+        },
+        "direction": {
+          "enum": [
+            "in",
+            "out",
+            "inout",
+            "return"
+          ]
+        },
+        "multiplicity": {
+          "$ref": "#/$defs/multiplicity"
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "private",
+            "protected",
+            "package"
+          ]
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameter"
+          }
+        },
+        "ownedRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint"
+          }
+        }
+      }
+    },
+    "associationEnd": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "typeRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string"
+        },
+        "typeRef": {
+          "$ref": "#/$defs/reference"
+        },
+        "multiplicity": {
+          "$ref": "#/$defs/multiplicity"
+        },
+        "aggregation": {
+          "enum": [
+            "none",
+            "shared",
+            "composite"
+          ]
+        }
+      }
+    },
+    "tagDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "typeRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "typeRef": {
+          "$ref": "#/$defs/reference"
+        },
+        "multiplicity": {
+          "$ref": "#/$defs/multiplicity"
+        }
+      }
+    },
+    "stereotypeApplication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stereotypeRef"
+      ],
+      "properties": {
+        "stereotypeRef": {
+          "$ref": "#/$defs/reference"
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/valueSpecification"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/valueSpecification"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/reference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:Package",
+            "uml:Class",
+            "uml:Interface",
+            "uml:DataType",
+            "uml:PrimitiveType",
+            "uml:Enumeration",
+            "uml:Component",
+            "uml:Association",
+            "uml:Profile",
+            "uml:Stereotype",
+            "uml:Dependency",
+            "uml:Realization"
+          ]
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "private",
+            "protected",
+            "package"
+          ]
+        },
+        "documentation": {
+          "type": "string"
+        },
+        "packagedElements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/element"
+          }
+        },
+        "ownedAttributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/property"
+          }
+        },
+        "ownedOperations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          }
+        },
+        "ownedRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint"
+          }
+        },
+        "generalizations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "literals": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "memberEnds": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/associationEnd"
+          }
+        },
+        "clients": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "suppliers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "extensions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metaclassRef"
+            ],
+            "properties": {
+              "metaclassRef": {
+                "$ref": "#/$defs/reference"
+              },
+              "isRequired": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "tagDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tagDefinition"
+          }
+        },
+        "appliedProfiles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "stereotypeApplications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stereotypeApplication"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "uml:Association"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "memberEnds"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "uml:Stereotype"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "extensions"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "uml:Dependency",
+                  "uml:Realization"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "clients",
+              "suppliers"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
