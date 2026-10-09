@@ -1,0 +1,23 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:deployment
+  name: OrderingDeployment
+packagedElements:
+  - id: urn:example:artifact:ordering
+    type: uml:Artifact
+    name: OrderingServiceArtifact
+  - id: urn:example:node:host
+    type: uml:Node
+    name: Host
+    deploymentNodes:
+      - id: urn:example:node:runtime
+        type: uml:ExecutionEnvironment
+        name: Runtime
+        deployedArtifactRefs:
+          - urn:example:artifact:ordering
+    deployments:
+      - id: urn:example:deployment:ordering
+        locationRef: urn:example:node:runtime
+        deployedArtifactRefs:
+          - urn:example:artifact:ordering
