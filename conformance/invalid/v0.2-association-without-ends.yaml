@@ -1,0 +1,10 @@
+# Invalid: Association requires memberEnds.
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:invalid-association
+  name: InvalidAssociation
+packagedElements:
+  - id: urn:example:association:invalid
+    type: uml:Association
+    name: Broken
