@@ -1,0 +1,6 @@
+# Expected: invalid (metadata.id required).
+apiVersion: uml-yaml.org/v0.1
+kind: uml:Model
+metadata:
+  name: MissingId
+packagedElements: []
