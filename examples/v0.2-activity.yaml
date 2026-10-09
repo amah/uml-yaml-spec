@@ -1,0 +1,16 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:workflow
+  name: Workflow
+packagedElements:
+  - id: urn:example:activity:process
+    type: uml:Activity
+    name: Process
+    nodes:
+      - {id: urn:example:node:start, type: uml:InitialNode, name: Start}
+      - {id: urn:example:node:work, type: uml:OpaqueAction, name: Work, body: "perform work"}
+      - {id: urn:example:node:end, type: uml:ActivityFinalNode, name: End}
+    edges:
+      - {id: urn:example:edge:one, type: uml:ControlFlow, sourceRef: urn:example:node:start, targetRef: urn:example:node:work}
+      - {id: urn:example:edge:two, type: uml:ControlFlow, sourceRef: urn:example:node:work, targetRef: urn:example:node:end}
