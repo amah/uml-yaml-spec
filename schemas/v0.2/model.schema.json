@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://uml-yaml.org/schemas/v0.2/model.schema.json",
   "title": "UML YAML v0.2 foundational metamodel (draft)",
-  "description": "v0.2 draft UML-aligned foundational schema, including integrated classifier detail vocabulary; not complete UML 2.5.1.",
+  "description": "Partial UML v0.2 draft: foundations, classifier vocabulary, and minimal activity/state-machine vocabulary. Not full UML semantics.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -392,7 +392,9 @@
             "uml:Stereotype",
             "uml:Dependency",
             "uml:Realization",
-            "uml:Signal"
+            "uml:Signal",
+            "uml:Activity",
+            "uml:StateMachine"
           ]
         },
         "visibility": {
@@ -515,6 +517,72 @@
         },
         "signalDetails": {
           "$ref": "#/$defs/classifierSignalDetails"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/behaviorNode"
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/activityEdge"
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/state"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transition"
+          }
+        },
+        "contextRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "isReentrant": {
+          "type": "boolean"
+        },
+        "isReadOnly": {
+          "type": "boolean"
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string"
+              },
+              "states": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/state"
+                }
+              },
+              "transitions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/transition"
+                }
+              }
+            }
+          }
         }
       },
       "allOf": [
@@ -726,6 +794,144 @@
               }
             },
             "additionalProperties": false
+          }
+        }
+      }
+    },
+    "behaviorNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "uml:InitialNode",
+            "uml:ActivityFinalNode",
+            "uml:FlowFinalNode",
+            "uml:OpaqueAction",
+            "uml:DecisionNode",
+            "uml:MergeNode",
+            "uml:ForkNode",
+            "uml:JoinNode"
+          ]
+        },
+        "body": {
+          "type": "string"
+        }
+      }
+    },
+    "activityEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "sourceRef",
+        "targetRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:ControlFlow",
+            "uml:ObjectFlow"
+          ]
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "guard": {
+          "$ref": "#/$defs/valueSpecification"
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "uml:State",
+            "uml:Pseudostate",
+            "uml:FinalState"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "initial",
+            "choice",
+            "junction",
+            "fork",
+            "join",
+            "shallowHistory",
+            "deepHistory",
+            "entryPoint",
+            "exitPoint",
+            "terminate"
+          ]
+        }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sourceRef",
+        "targetRef"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "guard": {
+          "$ref": "#/$defs/valueSpecification"
+        },
+        "triggerRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }
