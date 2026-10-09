@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://uml-yaml.org/schemas/v0.2/model.schema.json",
   "title": "UML YAML v0.2 foundational metamodel (draft)",
-  "description": "A limited, UML-aligned foundational model. Not complete UML 2.5.1.",
+  "description": "v0.2 draft UML-aligned foundational schema, including integrated classifier detail vocabulary; not complete UML 2.5.1.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -391,7 +391,8 @@
             "uml:Profile",
             "uml:Stereotype",
             "uml:Dependency",
-            "uml:Realization"
+            "uml:Realization",
+            "uml:Signal"
           ]
         },
         "visibility": {
@@ -502,6 +503,18 @@
           "items": {
             "$ref": "#/$defs/stereotypeApplication"
           }
+        },
+        "classifierDetails": {
+          "$ref": "#/$defs/classifierClassifierDetails"
+        },
+        "enumerationLiterals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classifierEnumerationLiteral"
+          }
+        },
+        "signalDetails": {
+          "$ref": "#/$defs/classifierSignalDetails"
         }
       },
       "allOf": [
@@ -561,6 +574,161 @@
           }
         }
       ]
+    },
+    "classifierReference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classifierVisibility": {
+      "enum": [
+        "public",
+        "private",
+        "protected",
+        "package"
+      ]
+    },
+    "classifierClassifierFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isAbstract": {
+          "type": "boolean"
+        },
+        "isFinalSpecialization": {
+          "type": "boolean"
+        },
+        "isLeaf": {
+          "type": "boolean"
+        }
+      }
+    },
+    "classifierGeneralization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "generalRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/classifierReference"
+        },
+        "generalRef": {
+          "$ref": "#/$defs/classifierReference"
+        },
+        "isSubstitutable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "classifierInterfaceRealization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "contractRef"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/classifierReference"
+        },
+        "contractRef": {
+          "$ref": "#/$defs/classifierReference"
+        }
+      }
+    },
+    "classifierTemplateParameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/classifierReference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameteredElementRef": {
+          "$ref": "#/$defs/classifierReference"
+        }
+      }
+    },
+    "classifierClassifierDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "flags": {
+          "$ref": "#/$defs/classifierClassifierFlags"
+        },
+        "generalizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classifierGeneralization"
+          }
+        },
+        "interfaceRealizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classifierInterfaceRealization"
+          }
+        },
+        "templateParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classifierTemplateParameter"
+          }
+        }
+      }
+    },
+    "classifierEnumerationLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/classifierReference"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "classifierSignalDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ownedAttributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "typeRef"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/classifierReference"
+              },
+              "name": {
+                "type": "string"
+              },
+              "typeRef": {
+                "$ref": "#/$defs/classifierReference"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
     }
   }
 }
