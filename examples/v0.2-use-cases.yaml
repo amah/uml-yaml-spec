@@ -1,0 +1,19 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:usecases
+  name: OrderingUseCases
+packagedElements:
+  - id: urn:example:actor:customer
+    type: uml:Actor
+    name: Customer
+  - id: urn:example:usecase:checkout
+    type: uml:UseCase
+    name: Checkout
+    extensionPoints:
+      - {id: urn:example:extension-point:payment, name: Payment}
+    useCaseRelationships:
+      - {id: urn:example:include:checkout-pay, type: uml:Include, sourceRef: urn:example:usecase:checkout, targetRef: urn:example:usecase:pay}
+  - id: urn:example:usecase:pay
+    type: uml:UseCase
+    name: Pay
