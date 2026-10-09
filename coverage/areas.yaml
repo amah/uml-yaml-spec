@@ -1,0 +1,39 @@
+# Planning-level inventory, NOT a complete UML metaclass inventory.
+umlVersion: "2.5.1"
+serializationVersion: "v0.1"
+inventoryComplete: false
+areas:
+  - name: CommonStructure
+    status: partial
+  - name: Classification
+    status: partial
+  - name: StructuredClassifiers
+    status: partial
+  - name: SimpleClassifiers
+    status: partial
+  - name: Packages
+    status: partial
+  - name: CommonBehavior
+    status: missing
+  - name: Activities
+    status: missing
+  - name: Actions
+    status: missing
+  - name: StateMachines
+    status: missing
+  - name: Interactions
+    status: missing
+  - name: UseCases
+    status: missing
+  - name: Deployments
+    status: missing
+  - name: Components
+    status: partial
+  - name: Profiles
+    status: partial
+  - name: Templates
+    status: missing
+  - name: InformationFlows
+    status: missing
+  - name: Values
+    status: partial
