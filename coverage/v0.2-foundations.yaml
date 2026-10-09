@@ -1,0 +1,19 @@
+# Partial metaclass inventory for the v0.2 foundational draft.
+# This is NOT an exhaustive list of UML 2.5.1 metaclasses.
+umlVersion: "2.5.1"
+serializationVersion: "v0.2"
+inventoryComplete: false
+metaclasses:
+  - {name: Element, status: partial, note: "Identity and containment conventions"}
+  - {name: NamedElement, status: partial, note: "Name and visibility"}
+  - {name: Namespace, status: partial, note: "Package ownership only"}
+  - {name: Package, status: partial, note: "Recursive packagedElements"}
+  - {name: Type, status: partial, note: "typeRef convention"}
+  - {name: Classifier, status: partial, note: "Generalization references"}
+  - {name: MultiplicityElement, status: partial, note: "Lower/upper only"}
+  - {name: ValueSpecification, status: partial, note: "Four literal kinds"}
+  - {name: Constraint, status: partial, note: "Constrained elements and typed specification"}
+  - {name: DirectedRelationship, status: partial, note: "Dependency/Realization clients and suppliers"}
+  - {name: Association, status: partial, note: "Member ends only"}
+  - {name: Profile, status: partial, note: "Definition and application"}
+  - {name: Stereotype, status: partial, note: "Extension and typed tags"}
