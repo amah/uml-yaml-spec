@@ -1,0 +1,19 @@
+umlVersion: "2.5.1"
+serializationVersion: "v0.2"
+inventoryComplete: false
+module: behavior
+elements:
+  - {name: Behavior, status: missing}
+  - {name: Activity, status: partial}
+  - {name: ActivityNode, status: partial}
+  - {name: ActivityEdge, status: partial}
+  - {name: Action, status: partial}
+  - {name: ObjectNode, status: missing}
+  - {name: StateMachine, status: partial}
+  - {name: Region, status: partial}
+  - {name: State, status: partial}
+  - {name: Pseudostate, status: partial}
+  - {name: FinalState, status: partial}
+  - {name: Transition, status: partial}
+  - {name: Event, status: missing}
+  - {name: Trigger, status: missing}
