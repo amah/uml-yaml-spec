@@ -1,0 +1,19 @@
+umlVersion: "2.5.1"
+serializationVersion: "v0.2"
+inventoryComplete: false
+modules:
+  useCases:
+    - {name: Actor, status: partial}
+    - {name: UseCase, status: partial}
+    - {name: Include, status: partial}
+    - {name: Extend, status: partial}
+    - {name: ExtensionPoint, status: partial}
+  deployments:
+    - {name: Node, status: partial}
+    - {name: Device, status: partial}
+    - {name: ExecutionEnvironment, status: partial}
+    - {name: Artifact, status: partial}
+    - {name: Deployment, status: partial}
+    - {name: DeploymentSpecification, status: partial}
+    - {name: Manifestation, status: partial}
+    - {name: CommunicationPath, status: partial}
