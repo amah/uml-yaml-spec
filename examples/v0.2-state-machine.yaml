@@ -1,0 +1,19 @@
+apiVersion: uml-yaml.org/v0.2
+kind: uml:Model
+metadata:
+  id: urn:example:model:lifecycle
+  name: Lifecycle
+packagedElements:
+  - id: urn:example:state-machine:order
+    type: uml:StateMachine
+    name: OrderLifecycle
+    regions:
+      - id: urn:example:region:main
+        name: Main
+        states:
+          - {id: urn:example:vertex:initial, type: uml:Pseudostate, name: Initial, kind: initial}
+          - {id: urn:example:state:pending, type: uml:State, name: Pending}
+          - {id: urn:example:state:done, type: uml:FinalState, name: Done}
+        transitions:
+          - {id: urn:example:transition:start, sourceRef: urn:example:vertex:initial, targetRef: urn:example:state:pending}
+          - {id: urn:example:transition:finish, sourceRef: urn:example:state:pending, targetRef: urn:example:state:done}
